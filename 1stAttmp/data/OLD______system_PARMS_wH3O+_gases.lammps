@@ -1,0 +1,66 @@
+# Parameters to model the CL
+
+mass  1     18.998400     # F_   | Nafion   (DREIDING)
+mass  2     12.011000     # C_3  | Nafion   (DREIDING)
+mass  3     15.999400     # O_3  | Nafion   (DREIDING) single bond (charge -0.24000, )
+mass  4     15.999400     # O_2  | Nafion   (DREIDING) double bond (charge -0.19300)
+mass  5     32.060000     # S_3  | Nafion   (DREIDING)
+mass  6     12.011000     # C    | Graphite (OPLSAA-AA)
+mass  7     1.008         # H    | Water    (SPC/Fw)
+mass  8     15.999400     # O    | Water    (SPC/Fw)
+mass  9     1.008         # H    | Hydronium  (GROMOS 57A)
+mass  10    15.999400     # O    | Hydronium  (GROMOS 57A)
+mass  11    15.999400     # O    | Gas
+mass  12    14.0067       # N    | Gas
+mass  13    1.008         # H    | Gas
+
+pair_coeff  1 1  0.072500     3.093200    # F_    | Nafion     (DREIDING)
+pair_coeff  2 2  0.095100     3.472990    # C_3   | Nafion     (DREIDING)
+pair_coeff  3 3  0.095700     3.033154    # O_3   | Nafion     (DREIDING)
+pair_coeff  4 4  0.095700     3.033154    # O_2   | Nafion     (DREIDING)
+pair_coeff  5 5  0.344000     3.590322    # S_3   | Nafion     (DREIDING)
+pair_coeff  6 6  0.066        3.4         # C     | Graphite   (OPLSAA-AA)
+pair_coeff  7 7  0.0          0.0         # H     | Water      (SPC/Fw)
+pair_coeff  8 8  0.155        3.165       # O     | Water      (SPC/Fw)
+pair_coeff  9 9  0.00         0.00        # H     | Hydronium  (GROMOS 57A)
+pair_coeff 10 10 0.20306103   2.9548419   # O     | Hydronium  (GROMOS 57A)
+pair_coeff  9 10 0.00         0.00        # H-O   | Hydronium  (GROMOS 57A)
+pair_coeff 11 11 0.095700     3.033154    # O_3   | Gas        (DREIDING)
+pair_coeff 12 12 0.077400     3.262560    # N_1   | Gas        (DREIDING)
+pair_coeff 13 13 0.015200     2.846421    # H_    | Gas        (DREIDING)
+
+bond_coeff  1    350.000000      1.371000    # F_ C_3    | Nafion
+bond_coeff  2    350.000000      1.530000    # C_3 C_3   | Nafion
+bond_coeff  3    350.000000      1.420000    # C_3 O_3   | Nafion
+bond_coeff  4    350.000000      1.800000    # C_3 S_3   | Nafion
+bond_coeff  5    459.000000      1.360000    # O_2 S_3   | Nafion double bond influenced by GROMOS 54A7
+bond_coeff  6    320.000000      1.610000    # O_3 S_3   | Nafion single bond influenced by GROMOS 54A7
+bond_coeff  7    469             1.4         # C-C       | Graphite   (OPLSAA-AA)
+bond_coeff  8    529.581         1.012       # O-H       | Water      (SPC/Fw)
+bond_coeff  9    478.01147       0.984       # O-H       | Hydronium  (GROMOS 57A)
+
+angle_coeff  1 cosine/squared 50.000000 109.47100    # X C_3 X    | Nafion   (cosine/squared)
+angle_coeff  2 cosine/squared 50.000000 104.51000    # X O_3 X    | Nafion   (cosine/squared)
+angle_coeff  3 cosine/squared 50.000000 92.100000    # X S_3 X    | Nafion   (cosine/squared)
+angle_coeff  4 harmonic       63        120          # C C C      | Graphite (harmonic) 
+angle_coeff  5 harmonic       37.95     113.24       # H2O H-O-H  | water    (SPC/Fw)    (harmonic) 
+angle_coeff  6 harmonic       47.69405  109.5        # H3O H-O-H  | Hydronium  (GROMOS 57A) 
+
+dihedral_coeff  1   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff  2   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff  3   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff  4   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff  5   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff  6   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff  7   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff  8   harmonic   0.111111    1   3     # X C_3 O_3 X  | Nafion    (harmonic)
+dihedral_coeff  9   harmonic   0.111111    1   3     # X C_3 O_3 X  | Nafion    (harmonic)
+dihedral_coeff 10   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff 11   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff 12   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff 13   harmonic   0.111111    1   3     # X C_3 C_3 X  | Nafion    (harmonic)
+dihedral_coeff 14   harmonic   0.111111    1   3     # X C_3 S_3 X  | Nafion    (harmonic)
+dihedral_coeff 15   harmonic   0.111111    1   3     # X C_3 S_3 X  | Nafion    (harmonic)
+dihedral_coeff 16   opls       0 7.25      0   0     # C C C C      | Graphite  (opls)
+
+improper_coeff 1 5 180  # C C C C | Graphite (harmonic)

@@ -1,0 +1,79 @@
+# LAMMPS - CATALYST LAYER 
+units           real
+atom_style      full
+boundary        p p p
+
+bond_style      harmonic
+angle_style     harmonic
+dihedral_style  harmonic
+improper_style  umbrella
+
+pair_style      lj/cut/coul/long 15
+kspace_style    pppm 1e-5
+
+special_bonds   lj 0.0 0.0 0.5 coul 0.0 0.0 1.0 angle yes
+pair_modify     tail yes mix arithmetic
+
+read_data ../data/carbon_bed_DREIDING_QeD_charges_.data &
+            extra/bond/per/atom 20 &
+            extra/angle/per/atom 20 &
+            extra/dihedral/per/atom 30 &
+            extra/improper/per/atom 10 &
+            extra/special/per/atom 35
+include  ../data/CL_PARAMS.lammps
+
+molecule nafionMOL     ../data/NAFION_IONOMER_12.mol
+molecule waterMOL      ../data/H2O-SPCFw.mol
+molecule hydroniumMOL  ../data/H3O+.mol
+
+create_atoms 0 single  0  0 35  mol nafionMOL 71017
+create_atoms 0 single 10 15 73  mol nafionMOL 71117
+create_atoms 0 single -3 15 108 mol nafionMOL 71217
+create_atoms 0 single 7 -15 141 mol nafionMOL 71217
+
+create_atoms 0 random 48 8910 NULL mol & 
+    hydroniumMOL 45476 overlap 3.0 maxtry 50
+create_atoms 0 random 600 8791 NULL mol &
+    waterMOL 45756 overlap 3.0 maxtry 50
+
+# 3 chains = 36 hydroniums; 4 chains = 48 hydroniums 
+
+# Get freezing carbon atoms | R0: first two layers; R1-R4: borders of first 3
+region R0 block INF INF INF INF INF 3.4
+region R1 block INF INF INF -17 6 13.41   
+region R2 block INF -17 INF INF 6 13.41 
+region R3 block INF INF 17  INF 6 13.41
+region R4 block 17  INF INF INF 6 13.41
+region R_immobilized_carbon union 5 R0 R1 R2 R3 R4 side in # total region to immobilize
+region R_else union 5 R0 R1 R2 R3 R4 side out
+
+group nafion type 1 2 3 4 5
+group water type 6 7 
+group hydronium type 8 9 
+group graphite type 10
+group immobilized_carbon region R_immobilized_carbon
+group moving_atoms region R_else
+
+
+#run 0
+#write_data initial_state.data  pair ij
+#read_data xxxxx
+
+
+###### RELAXATION 
+
+timestep        1
+thermo          100
+thermo_style    custom step temp etotal evdwl ecoul epair ebond eangle edihed elong etail press vol density 
+dump            dmp_nvt all custom 100 CL_relaxation_4Iλ13p5.traj id element xs ys zs
+dump_modify     dmp_nvt element C C F O S H O H O C C C O
+
+velocity        moving_atoms create 50 137534 dist gaussian
+fix             nvt1 moving_atoms nvt temp 50 300 10
+
+compute myRDF all rdf 200 5 5 5 7 5 9 5 11 3 11 cutoff 15
+fix myat1 all ave/time 10 4000 50000 c_myRDF[*] file RDF_4Iλ13p5.dat mode vector
+
+run             5000000  # 5 ns 
+
+write_data      CL_relaxation_4Iλ13p5.data pair ij
